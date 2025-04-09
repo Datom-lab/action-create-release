@@ -15,7 +15,7 @@ runs:
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
-    - name: Create ReleaseZ
+    - name: Create Release
       shell: bash
       run: release.sh
       env:
