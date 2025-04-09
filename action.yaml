@@ -1,0 +1,25 @@
+name: "Create a new release"
+description: "Create a new release in the repository"
+inputs:
+  version:
+    description: "Version of the release"
+    required: true
+  pr_body:
+    description: "Body of the pull request"
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Set Github Path
+      shell: bash
+      run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+    - name: Create ReleaseZ
+      shell: bash
+      run: release.sh
+      env:
+        INPUT_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INPUT_GITHUB_REPOSITORY: ${{ github.repository }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_PR_BODY: ${{ inputs.pr_body }}
