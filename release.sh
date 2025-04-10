@@ -18,7 +18,9 @@ git push origin "$VERSION"
 
 description=$(echo "$PR_BODY" | jq -Rs .)
 echo "Creating release for version $VERSION"
-response=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
+response_file=$(mktemp)
+response=$(curl -s -o "$response_file" -w "%{http_code}" -X POST \
+     -H "Authorization: token $GITHUB_TOKEN" \
      -H "Accept: application/vnd.github.v3+json" \
      -d '{
            "tag_name": "'"$VERSION"'",
@@ -30,9 +32,14 @@ response=$(curl -X POST -H "Authorization: token $GITHUB_TOKEN" \
          }' \
      "$GITHUB_RELEASE_URL")
 
-if [ "$response" -eq 200 ]; then
-    echo "INFO : Release created correctly"
+if [ "$response" -eq 201 ]; then
+    echo "✅ INFO : Release created correctly"
 else
-    echo "Something went wrong, recieved response status-> $response"
+    echo "❌ Something went wrong, received status -> $http_status"
+    echo "Response body:"
+    cat "$response_file"
+    rm "$response_file"
     exit 1
 fi
+
+rm "$response_file"
