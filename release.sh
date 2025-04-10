@@ -7,12 +7,13 @@ GITHUB_REPOSITORY=$INPUT_GITHUB_REPOSITORY
 GITHUB_API_URL="https://api.github.com"
 GITHUB_RELEASE_URL="$GITHUB_API_URL/repos/$GITHUB_REPOSITORY/releases"
 
-
+echo "Configure git user"
 git config --global user.name "Datom Actions"
 git config --global user.email "actions@datom.com"
 
 echo "Creating tag for version $VERSION"
 git tag -a "$VERSION" -m "Release $VERSION"
+echo "Pushing tag $VERSION to origin"
 git push origin "$VERSION"
 
 
