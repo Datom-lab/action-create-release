@@ -35,7 +35,7 @@ response=$(curl -s -o "$response_file" -w "%{http_code}" -X POST \
 if [ "$response" -eq 201 ]; then
     echo "✅ INFO : Release created correctly"
 else
-    echo "❌ Something went wrong, received status -> $http_status"
+    echo "❌ Something went wrong, received status -> $response"
     echo "Response body:"
     cat "$response_file"
     rm "$response_file"
