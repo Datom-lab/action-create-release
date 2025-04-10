@@ -18,11 +18,7 @@ runs:
       run: echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
-    # - name: Create Tag
-    #   uses: anothrNick/github-tag-action@v1
-    #   with:
-    #     GITHUB_TOKEN: ${{ inputs.repo_token }}
-    #     CUSTOM_TAG : ${{ inputs.version }}
+
     - name: Create Release
       shell: bash
       run: release.sh
